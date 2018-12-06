@@ -55,9 +55,20 @@
       <Project>{fe471f10-2889-4e9e-8b44-c5646b60b879}</Project>
       <Name>CognitiveServicesCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmotionAnalysis\EmotionAnalysis.csproj">
+      <Project>{f8893cae-f76d-4047-8656-5e4bd0b4a299}</Project>
+      <Name>EmotionAnalysis</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\ajacProfile.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ajacProfile2.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ajacProfile4.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
