@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using CognitiveServicesCore;
+using EmotionAnalysis;
 
 namespace CognitiveServicesConsole
 {
@@ -15,32 +10,11 @@ namespace CognitiveServicesConsole
     {
         public async Task Run()
         {
-            var client = new HttpClient();
-
-            client.DefaultRequestHeaders.Add(
-                "Ocp-Apim-Subscription-Key", Configuration.FaceRecognitionKey);
-
-            string requestParameters = "returnFaceId=true&returnFaceLandmarks=false" +
-                                       "&returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses," +
-                                       "emotion,hair,makeup,occlusion,accessories,blur,exposure,noise";
-
-            string uri = Configuration.FaceRecognitionApiUrl + "/detect?" + requestParameters;
-
             var imageByteArray = GetImageAsByteArray("CognitiveServicesConsole.Images.ajacProfile.jpg");
 
-            using (ByteArrayContent content = new ByteArrayContent(imageByteArray))
-            {
-                content.Headers.ContentType =
-                    new MediaTypeHeaderValue("application/octet-stream");
+            EmotionAnalysisEngine emotionAnalysis = new EmotionAnalysisEngine();
 
-                HttpResponseMessage response = await client.PostAsync(uri, content);
-
-                string contentString = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine("\nResponse:\n");
-                Console.WriteLine(contentString);
-                Console.WriteLine("\nPress Enter to exit...");
-            }
+            await emotionAnalysis.AnalyseEmotion(Guid.NewGuid(), imageByteArray);
         }
 
         private byte[] GetImageAsByteArray(string imageFilePath)

@@ -21,7 +21,9 @@ namespace CognitiveServicesCore
         public static string VisionKey => "4ec16e5f291c4151a741d12a378c0eb0";
 
         public static string CosmosUrl => "https://hackathon.documents.azure.com:443/";
-        public static string CosmosKey => "OmvYuQLcpHMLctibFsxIkXMLupNMD6PivHCCnPVx2rq4eb3WFzHo0MCrVoginFj7SWGhH6v74hW12QIm7JbVZw";
+        public static string CosmosKey => "OmvYuQLcpHMLctibFsxIkXMLupNMD6PivHCCnPVx2rq4eb3WFzHo0MCrVoginFj7SWGhH6v74hW12QIm7JbVZw==";
         public static string CosmosConnectionString => $"AccountEndpoint={CosmosUrl};AccountKey={CosmosKey};";
+        public static string DatabaseName => "hackathon";
+        public static string CollectionName => "hackathon";
     }
 }
