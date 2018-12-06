@@ -9,7 +9,7 @@ namespace EmotionAnalysis
 {
     public class EmotionAnalysisEngine
     {
-        public async Task AnalyseEmotion(Guid sessionIdGuid, byte[] imageByteArray)
+        public async Task<FaceAnalysisDocument> AnalyseEmotion(Guid sessionIdGuid, byte[] imageByteArray)
         {
             var client = new HttpClient();
 
@@ -33,18 +33,37 @@ namespace EmotionAnalysis
 
                 string contentString = await response.Content.ReadAsStringAsync();
 
-                JObject json = JObject.Parse(contentString.Substring(1, contentString.Length - 2));
+                JArray results = JArray.Parse(contentString);
 
-                await cosmosRepository.Create(new FaceAnalysisDocument()
+                if (results.Count > 0)
                 {
-                    SessionId = sessionIdGuid,
-                    EventDateTime = DateTime.UtcNow,
-                    Image = imageByteArray,
-                    Result = json
-                });
+                    // contentString.Substring(1, contentString.Length - 2)
+                    JObject json = JObject.Parse(results[0].ToString());
+
+                    FaceAnalysisDocument faceAnalysisDocument = new FaceAnalysisDocument
+                    {
+                        SessionId = sessionIdGuid,
+                        EventDateTime = DateTime.UtcNow,
+                        Image = imageByteArray,
+                        Result = json
+                    };
+
+                    await cosmosRepository.Create(faceAnalysisDocument);
+
+                    return faceAnalysisDocument;
+                }
+
+                return new FaceAnalysisDocument();
             }
         }
 
-        
+        public async Task<EmotionAnalysisResultSet> GetAnalysisResultSet(Guid sessionIdGuid)
+        {
+            CosmosRepository cosmosRepository = new CosmosRepository();
+
+            var resultSet = await cosmosRepository.GetFaceAnalysisResults(sessionIdGuid);
+
+            return new EmotionAnalysisResultSet();
+        }
     }
 }

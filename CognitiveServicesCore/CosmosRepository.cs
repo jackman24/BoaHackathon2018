@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 
 namespace CognitiveServicesCore
 {
@@ -12,10 +13,11 @@ namespace CognitiveServicesCore
     {
         private DocumentClient _documentClient;
         private DocumentCollection _collectionDefinition;
-
+        private Uri _cosmosUri => new Uri(Configuration.CosmosUrl);
+        
         public async Task Initialise()
         {
-            _documentClient = new DocumentClient(new Uri(Configuration.CosmosUrl), Configuration.CosmosKey);
+            _documentClient = new DocumentClient(_cosmosUri, Configuration.CosmosKey);
 
             _collectionDefinition = new DocumentCollection
             {
@@ -32,10 +34,34 @@ namespace CognitiveServicesCore
 
         public async Task Create(FaceAnalysisDocument document)
         {
-            await Initialise();
+            if (_documentClient == null)
+            {
+                await Initialise();
+            }
 
             await _documentClient.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(Configuration.DatabaseName, 
                 Configuration.CollectionName), document).ConfigureAwait(false);
+        }
+
+        public async Task<List<FaceAnalysisDocument>> GetFaceAnalysisResults(Guid sessionId)
+        {
+            if (_documentClient == null)
+            {
+                await Initialise();
+            }
+
+            IQueryable<FaceAnalysisDocument> queryResult = this._documentClient.CreateDocumentQuery<FaceAnalysisDocument>(
+                    UriFactory.CreateDocumentCollectionUri(Configuration.DatabaseName, Configuration.CollectionName), new FeedOptions())
+                .Where(x => x.SessionId == sessionId)
+                .OrderBy(x => x.EventDateTime);
+
+            var items = new List<FaceAnalysisDocument>();
+            foreach (FaceAnalysisDocument faceAnalysisDocument in queryResult)
+            {
+                items.Add((FaceAnalysisDocument)faceAnalysisDocument);
+            }
+
+            return items;
         }
     }
 }

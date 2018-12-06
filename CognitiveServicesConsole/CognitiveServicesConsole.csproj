@@ -61,7 +61,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\ajacProfile.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ajacProfile2.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ajacProfile4.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
