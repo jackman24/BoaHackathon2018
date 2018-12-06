@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CognitiveServicesCore;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace EmotionAnalysis
@@ -37,7 +39,6 @@ namespace EmotionAnalysis
 
                 if (results.Count > 0)
                 {
-                    // contentString.Substring(1, contentString.Length - 2)
                     JObject json = JObject.Parse(results[0].ToString());
 
                     FaceAnalysisDocument faceAnalysisDocument = new FaceAnalysisDocument
@@ -62,6 +63,13 @@ namespace EmotionAnalysis
             CosmosRepository cosmosRepository = new CosmosRepository();
 
             var resultSet = await cosmosRepository.GetFaceAnalysisResults(sessionIdGuid);
+
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+
+            foreach (FaceAnalysisDocument faceAnalysisDocument in resultSet)
+            {
+                JsonConvert.DeserializeObject<List<EmotionAnalysisResult>>(faceAnalysisDocument.Result.ToString());
+            }
 
             return new EmotionAnalysisResultSet();
         }
