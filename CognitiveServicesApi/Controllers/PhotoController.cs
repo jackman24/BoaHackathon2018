@@ -28,16 +28,24 @@ namespace CognitiveServicesApi.Controllers
 
         // POST: api/Photo
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] string[] value)
         {
-            string[] strings = value.Split(',');
-            byte[] bytes = strings.Select(s => byte.Parse(s)).ToArray();
+            var bytes = new List<byte>();
+
+            foreach (var item in value)
+            {
+                string[] strings = item.Split(',');
+                bytes.AddRange(strings.Select(s => byte.Parse(s)));
+            }
 
             PhotoData newPhoto = new PhotoData()
             {
                 Id = Guid.NewGuid(),
-                Photo = bytes
-        };
+                Photo = bytes.ToArray()
+            };
+
+            EmotionAnalysisController x = new EmotionAnalysisController();
+            var thing = await x.AnalyseEmotion(newPhoto.Id, newPhoto.Photo);
 
             return NoContent();
         }

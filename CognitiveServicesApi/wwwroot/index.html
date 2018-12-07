@@ -40,6 +40,8 @@
             <button id="sendphoto">Send Photo!</button>
         </div>
     </div>
+    <br />
+    <br />
     <div class="row">
         <script src="https://cdn.htmlgames.com/embed.js?game=MinesweeperClassic&amp;width=800&amp;height=480&amp;bgcolor=white"></script>
     </div>
@@ -99,13 +101,20 @@
             document.getElementById('sendphoto').addEventListener('click', async () => {
                 // Copying the image in a temporary canvas
                 const imageCTX = canvas.getContext('2d');
-                const imageData = imageCTX.getImageData(10, 10, 50, 50);
+                const imageData = imageCTX.getImageData(0, 0, 320, 240);
 
-                var photoData = "";
+                var photoData = [];
+                var curPhotoData = "";
                 for (var i = 0; i < imageData.data.length; i++) {
-                    photoData = photoData + imageData.data[i] + ",";
+                    if (curPhotoData.length >= 9995) {
+                        curPhotoData = curPhotoData.substr(0, curPhotoData.length - 1);
+                        photoData.push(curPhotoData);
+                        curPhotoData = "";
+                    }
+                    curPhotoData = curPhotoData + imageData.data[i] + ",";
                 }
-                photoData = photoData.substr(0, photoData.length - 1);
+                curPhotoData = curPhotoData.substr(0, curPhotoData.length - 1);
+                photoData.push(curPhotoData);
 
                 const userAction = async () => {
                     const response = await fetch('api/photo', {
