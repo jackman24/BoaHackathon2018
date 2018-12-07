@@ -47,6 +47,17 @@
     <Compile Include="EmotionAnalysis.cs" />
     <Compile Include="EmotionAnalysisResult.cs" />
     <Compile Include="EmotionAnalysisResultSet.cs" />
+    <Compile Include="Models\Blur.cs" />
+    <Compile Include="Models\Exposure.cs" />
+    <Compile Include="Models\FaceAttributes.cs" />
+    <Compile Include="Models\FaceRectangle.cs" />
+    <Compile Include="Models\FacialHair.cs" />
+    <Compile Include="Models\Hair.cs" />
+    <Compile Include="Models\HeadPose.cs" />
+    <Compile Include="Models\Makeup.cs" />
+    <Compile Include="Models\Motion.cs" />
+    <Compile Include="Models\Noise.cs" />
+    <Compile Include="Models\Occlusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

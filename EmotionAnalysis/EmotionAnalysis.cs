@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CognitiveServicesCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace EmotionAnalysis
@@ -64,14 +66,30 @@ namespace EmotionAnalysis
 
             var resultSet = await cosmosRepository.GetFaceAnalysisResults(sessionIdGuid);
 
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+            EmotionAnalysisResultSet emotionAnalysisResultSet = new EmotionAnalysisResultSet();
 
             foreach (FaceAnalysisDocument faceAnalysisDocument in resultSet)
             {
-                JsonConvert.DeserializeObject<List<EmotionAnalysisResult>>(faceAnalysisDocument.Result.ToString());
+                EmotionAnalysisResult emotionAnalysisResult =
+                    JsonConvert.DeserializeObject<EmotionAnalysisResult>(faceAnalysisDocument.Result.ToString(), JsonSerializerSettings);
+
+                emotionAnalysisResult.EventDateTime = faceAnalysisDocument.EventDateTime;
+                emotionAnalysisResult.Image = faceAnalysisDocument.Image;
+
+                emotionAnalysisResultSet.EmotionAnalysisResults.Add(emotionAnalysisResult);
             }
 
-            return new EmotionAnalysisResultSet();
+            return emotionAnalysisResultSet;
         }
+
+        public static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+            DateParseHandling = DateParseHandling.None,
+            Converters =
+            {
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
+        };
     }
 }
