@@ -276,6 +276,16 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CognitiveServicesCore\CognitiveServicesCore.csproj">
+      <Project>{FE471F10-2889-4E9E-8B44-C5646B60B879}</Project>
+      <Name>CognitiveServicesCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmotionAnalysis\EmotionAnalysis.csproj">
+      <Project>{F8893CAE-F76D-4047-8656-5E4BD0B4A299}</Project>
+      <Name>EmotionAnalysis</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -74,7 +74,7 @@ namespace EmotionAnalysis
                     JsonConvert.DeserializeObject<EmotionAnalysisResult>(faceAnalysisDocument.Result.ToString(), JsonSerializerSettings);
 
                 emotionAnalysisResult.EventDateTime = faceAnalysisDocument.EventDateTime;
-                emotionAnalysisResult.Image = faceAnalysisDocument.Image;
+                //emotionAnalysisResult.Image = faceAnalysisDocument.Image;
 
                 emotionAnalysisResultSet.EmotionAnalysisResults.Add(emotionAnalysisResult);
             }
