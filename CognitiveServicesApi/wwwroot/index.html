@@ -101,13 +101,19 @@
                 const imageCTX = canvas.getContext('2d');
                 const imageData = imageCTX.getImageData(10, 10, 50, 50);
 
+                var photoData = "";
+                for (var i = 0; i < imageData.data.length; i++) {
+                    photoData = photoData + imageData.data[i] + ",";
+                }
+                photoData = photoData.substr(0, photoData.length - 1);
+
                 const userAction = async () => {
                     const response = await fetch('api/photo', {
                         method: 'POST',
                         headers: {
-                            "Content-Type": "multipart/form-data"
+                            "Content-Type": "application/json"
                         },
-                        body: JSON.stringify(imageData.data)
+                        body: `${JSON.stringify(photoData)}`
                     });
                 }
 
