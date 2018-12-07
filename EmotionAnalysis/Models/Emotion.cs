@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace EmotionAnalysis.Models
 {
     public class Emotion
     {
         [JsonProperty("anger")]
-        public long Anger { get; set; }
+        public double Anger { get; set; }
 
         [JsonProperty("contempt")]
         public double Contempt { get; set; }
 
         [JsonProperty("disgust")]
-        public long Disgust { get; set; }
+        public double Disgust { get; set; }
 
         [JsonProperty("fear")]
-        public long Fear { get; set; }
+        public double Fear { get; set; }
 
         [JsonProperty("happiness")]
         public double Happiness { get; set; }
@@ -28,9 +23,9 @@ namespace EmotionAnalysis.Models
         public double Neutral { get; set; }
 
         [JsonProperty("sadness")]
-        public long Sadness { get; set; }
+        public double Sadness { get; set; }
 
         [JsonProperty("surprise")]
-        public long Surprise { get; set; }
+        public double Surprise { get; set; }
     }
 }

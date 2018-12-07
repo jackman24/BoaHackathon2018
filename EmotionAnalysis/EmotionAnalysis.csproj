@@ -55,7 +55,7 @@
     <Compile Include="Models\Hair.cs" />
     <Compile Include="Models\HeadPose.cs" />
     <Compile Include="Models\Makeup.cs" />
-    <Compile Include="Models\Motion.cs" />
+    <Compile Include="Models\Emotion.cs" />
     <Compile Include="Models\Noise.cs" />
     <Compile Include="Models\Occlusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
