@@ -1,14 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmotionAnalysis
 {
     public class EmotionAnalysisResultSet
     {
-        // properties to calculate state of individual
+        public bool FitToPlay => CalculateOverallResult();
+
+        private bool CalculateOverallResult()
+        {
+            if (AgeDeteriation > 0)
+                return false;
+
+            if (EmotionAnalysisResults.Count == 0)
+            {
+                return true;
+            }
+
+            double saddest = EmotionAnalysisResults.Max(x => x.FaceAttributes.Emotion.Sadness);
+            double happiest = EmotionAnalysisResults.Min(x => x.FaceAttributes.Emotion.Sadness);
+
+            double minimumLevel = happiest * 0.8;
+
+            if (saddest < minimumLevel)
+            {
+                return false;
+            }
+
+            saddest = EmotionAnalysisResults.Min(x => x.FaceAttributes.Emotion.Happiness);
+            happiest = EmotionAnalysisResults.Max(x => x.FaceAttributes.Emotion.Happiness);
+            minimumLevel = happiest * 0.8;
+
+            if (saddest < minimumLevel)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         public long AgeDeteriation
         {
