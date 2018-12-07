@@ -1,16 +1,16 @@
-﻿using CognitiveServicesCore;
-using EmotionAnalysis;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using CognitiveServicesCore;
+using EmotionAnalysis;
 
 namespace CognitiveServicesApi.Controllers
 {
-    public class ValuesController : ApiController
+    public class EmotionAnalysisController : ApiController
     {
-        // http://localhost:56420/api/emotionanalysis/c8684209-e2c1-4413-aa39-f87a423c4742
         [HttpGet]
         [ResponseType(typeof(EmotionAnalysisResultSet))]
         [Route("api/emotionanalysis/{sessionId:Guid}")]
@@ -25,39 +25,12 @@ namespace CognitiveServicesApi.Controllers
         [HttpPost]
         [ResponseType(typeof(FaceAnalysisDocument))]
         [Route("api/emotionanalysis/{sessionId:Guid}")]
-        public async Task<FaceAnalysisDocument> AnalyseEmotion([FromUri] Guid sessionId, [FromBody] byte[] imageArray)
+        public async Task<FaceAnalysisDocument> AnalyseEmotion([FromUri] Guid sessionId, byte[] imageArray)
         {
             EmotionAnalysisEngine emotionAnalysisEngine = new EmotionAnalysisEngine();
 
             var response = await emotionAnalysisEngine.AnalyseEmotion(sessionId, imageArray).ConfigureAwait(false);
             return response;
-        }
-
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
         }
     }
 }
