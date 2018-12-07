@@ -41,6 +41,7 @@ namespace CognitiveServicesApi
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

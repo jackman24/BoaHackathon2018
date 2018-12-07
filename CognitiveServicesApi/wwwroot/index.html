@@ -5,110 +5,115 @@
     <title></title>
 </head>
 <body>
-<style>
-    .cromulon-background {
-        background: url(https://media.giphy.com/media/26DOs997h6fgsCthu/giphy.gif
-                        https://media.giphy.com/media/26DOs997h6fgsCthu/giphy.gif) no-repeat center center;
-    }
+    <style>
+        .cromulon-background {
+            background: url(https://media.giphy.com/media/26DOs997h6fgsCthu/giphy.gif) no-repeat center center;
+        }
 
-    #myOnlineCamera video {
-        width: 320px;
-        height: 240px;
-        margin: 15px;
-        float: left;
-    }
+        #myOnlineCamera video {
+            width: 320px;
+            height: 240px;
+            margin: 15px;
+            float: left;
+        }
 
-    #myOnlineCamera canvas {
-        width: 320px;
-        height: 240px;
-        margin: 15px;
-        float: left;
-    }
+        #myOnlineCamera canvas {
+            width: 320px;
+            height: 240px;
+            margin: 15px;
+            float: left;
+        }
 
-    #myOnlineCamera button {
-        clear: both;
-        margin: 30px;
-    }
-</style>
+        #myOnlineCamera button {
+            clear: both;
+            margin: 30px;
+        }
+    </style>
 
-<div class="cromulon-background">
-</div>
-
-<div class="row">
-    <div id="myOnlineCamera">
-        <video muted></video>
-        <canvas id="myCanvas"></canvas>
-        <button id="takephoto">Take Photo!</button>
-        <button id="sendphoto">Send Photo!</button>
+    <div class="cromulon-background">
     </div>
-</div>
+    <div class="row">
+        <div id="myOnlineCamera">
+            <video muted></video>
+            <canvas id="myCanvas"></canvas>
+            <button id="takephoto">Take Photo!</button>
+            <button id="sendphoto">Send Photo!</button>
+        </div>
+    </div>
+    <div class="row">
+        <script src="https://cdn.htmlgames.com/embed.js?game=MinesweeperClassic&amp;width=800&amp;height=480&amp;bgcolor=white"></script>
+    </div>
 
-<script>
-    var videoObj = { "video": true },
-        errBack = function (error) {
-            alert("Video capture error: ", error.code);
-        };
 
-    // Ask the browser for permission to use the Webcam
-    if (navigator.getUserMedia) {                    // Standard
-        navigator.getUserMedia(videoObj, startWebcam, errBack);
-    } else if (navigator.webkitGetUserMedia) {        // WebKit
-        navigator.webkitGetUserMedia(videoObj, startWebcam, errBack);
-    } else if (navigator.mozGetUserMedia) {        // Firefox
-        navigator.mozGetUserMedia(videoObj, startWebcam, errBack);
-    };
+    <script>
+        var videoObj = { "video": true },
+            errBack = function (error) {
+                alert("Video capture error: ", error.code);
+            };
 
-    function startWebcam(stream) {
-
-        var myOnlineCamera = document.getElementById('myOnlineCamera'),
-            video = myOnlineCamera.querySelector('video'),
-            canvas = myOnlineCamera.querySelector('canvas');
-
-        video.width = video.offsetWidth;
-
+        // Ask the browser for permission to use the Webcam
         if (navigator.getUserMedia) {                    // Standard
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
+            navigator.getUserMedia(videoObj, startWebcam, errBack);
         } else if (navigator.webkitGetUserMedia) {        // WebKit
-            video.src = window.webkitURL.createObjectURL(stream);
-            video.play();
+            navigator.webkitGetUserMedia(videoObj, startWebcam, errBack);
         } else if (navigator.mozGetUserMedia) {        // Firefox
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
+            navigator.mozGetUserMedia(videoObj, startWebcam, errBack);
         };
 
-        // Click to take the photo
-        $('#takephoto').click(function () {
-            // Copying the image in a temporary canvas
-            const temp = document.getElementById('myCanvas');
-            const ctx = temp.getContext('2d');
+        function startWebcam(stream) {
 
-            temp.width = video.offsetWidth;
-            temp.height = video.offsetHeight;
-            const tempScale = (temp.height / temp.width);
+            var myOnlineCamera = document.getElementById('myOnlineCamera'),
+                video = myOnlineCamera.querySelector('video'),
+                canvas = myOnlineCamera.querySelector('canvas');
 
-            ctx.drawImage(
-                video,
-                0, 0,
-                video.offsetWidth, video.offsetHeight
-            );
-        });
+            video.width = video.offsetWidth;
 
-        $('#sendphoto').click(async function () {
-            // Copying the image in a temporary canvas
-            const imageCTX = canvas.getContext('2d');
-            const imageData = imageCTX.getImageData(10, 10, 50, 50);
+            if (navigator.getUserMedia) {                    // Standard
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            } else if (navigator.webkitGetUserMedia) {        // WebKit
+                video.src = window.webkitURL.createObjectURL(stream);
+                video.play();
+            } else if (navigator.mozGetUserMedia) {        // Firefox
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            };
 
-            const userAction = async () => {
-                const response = await fetch('/photoapi/photo', {
-                    method: 'POST',
-                    body: JSON.stringify(imageData)
-                });
-            }
+            // Click to take the photo
+            document.getElementById('takephoto').addEventListener('click', () => {
+                // Copying the image in a temporary canvas
+                const temp = document.getElementById('myCanvas');
+                const ctx = temp.getContext('2d');
 
-            await userAction();
-        });
-    }
-</script>
+                temp.width = video.offsetWidth;
+                temp.height = video.offsetHeight;
+                const tempScale = (temp.height / temp.width);
+
+                ctx.drawImage(
+                    video,
+                    0, 0,
+                    video.offsetWidth, video.offsetHeight
+                );
+            });
+
+            document.getElementById('sendphoto').addEventListener('click', async () => {
+                // Copying the image in a temporary canvas
+                const imageCTX = canvas.getContext('2d');
+                const imageData = imageCTX.getImageData(10, 10, 50, 50);
+
+                const userAction = async () => {
+                    const response = await fetch('api/photo', {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        },
+                        body: JSON.stringify(imageData.data)
+                    });
+                }
+
+                await userAction();
+            });
+        }
+    </script>
 </body>
 </html>
