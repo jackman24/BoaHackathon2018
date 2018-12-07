@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoiceDetection", "VoiceDete
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CognitiveServicesDemoSite", "CognitiveServicesDemoSite\CognitiveServicesDemoSite.csproj", "{7B232F82-536C-43F0-BF46-E3A5CF724B67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CognitiveServicesApi", "CognitiveServicesApi\CognitiveServicesApi.csproj", "{0A45C05A-17C7-4CDD-9218-37A856D84E16}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveServicesCore", "CognitiveServicesCore\CognitiveServicesCore.csproj", "{9CE639ED-2852-4DBD-9C50-0D9B80917A4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CognitiveServicesConsole", "CognitiveServicesConsole\CognitiveServicesConsole.csproj", "{919C7FF9-34B9-4D34-AA14-53598BD3E59B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveServicesConsole", "CognitiveServicesConsole\CognitiveServicesConsole.csproj", "{919C7FF9-34B9-4D34-AA14-53598BD3E59B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CognitiveServicesApi", "CognitiveServicesApi\CognitiveServicesApi.csproj", "{57749931-C547-4338-A5F4-4B390DCF07B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{7B232F82-536C-43F0-BF46-E3A5CF724B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B232F82-536C-43F0-BF46-E3A5CF724B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B232F82-536C-43F0-BF46-E3A5CF724B67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A45C05A-17C7-4CDD-9218-37A856D84E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A45C05A-17C7-4CDD-9218-37A856D84E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A45C05A-17C7-4CDD-9218-37A856D84E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A45C05A-17C7-4CDD-9218-37A856D84E16}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CE639ED-2852-4DBD-9C50-0D9B80917A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9CE639ED-2852-4DBD-9C50-0D9B80917A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CE639ED-2852-4DBD-9C50-0D9B80917A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{919C7FF9-34B9-4D34-AA14-53598BD3E59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{919C7FF9-34B9-4D34-AA14-53598BD3E59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{919C7FF9-34B9-4D34-AA14-53598BD3E59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57749931-C547-4338-A5F4-4B390DCF07B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57749931-C547-4338-A5F4-4B390DCF07B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57749931-C547-4338-A5F4-4B390DCF07B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57749931-C547-4338-A5F4-4B390DCF07B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
