@@ -16,8 +16,7 @@ namespace CognitiveServicesConsole
 
             for (int i = 0; i < 4; i++)
             {
-                var imageByteArray = GetImageAsByteArray($"CognitiveServicesConsole.Images.ajacProfile{i+1}.jpg");
-
+                var imageByteArray = GetImageAsByteArray($"CognitiveServicesConsole.Images.ajacProfile{i + 1}.jpg");
                 var result = await emotionAnalysis.AnalyseEmotion(sessionId, imageByteArray);
             }
 
