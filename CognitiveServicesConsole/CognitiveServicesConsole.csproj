@@ -8,6 +8,17 @@
 
   <ItemGroup>
     <None Remove="Images\ajacProfile.jpg" />
+    <None Remove="Images\ajacProfile1.jpg" />
+    <None Remove="Images\ajacProfile2.jpg" />
+    <None Remove="Images\ajacProfile3.jpg" />
+    <None Remove="Images\ajacProfile4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ajacProfile1.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile2.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile3.jpg" />
+    <EmbeddedResource Include="Images\ajacProfile4.jpg" />
   </ItemGroup>
 
   <ItemGroup>
