@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +38,11 @@ namespace CognitiveServicesApi.Controllers
             {
                 string[] strings = item.Split(',');
                 bytes.AddRange(strings.Select(s => byte.Parse(s)));
+            }
+
+            using (Image image = Image.FromStream(new MemoryStream(bytes.ToArray())))
+            {
+                image.Save("output.jpg", ImageFormat.Jpeg);  // Or Png
             }
 
             PhotoData newPhoto = new PhotoData()
