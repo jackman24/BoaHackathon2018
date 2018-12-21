@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,34 +28,51 @@ namespace CognitiveServicesApi.Controllers
         {
             return "value";
         }
+        private Image Base64ToImage(string base64String)
+        {
+            // Convert base 64 string to byte[]
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+            // Convert byte[] to Image
+            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                Image image = Image.FromStream(ms);
+                return image;
+            }
+        }
 
+        public class Model
+        {
+            public string ImageString { get; set; }
+        }
         // POST: api/Photo
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string[] value)
+        public async Task<IActionResult> Post(Model model)
         {
-            var bytes = new List<byte>();
-
-            foreach (var item in value)
+            try
             {
-                string[] strings = item.Split(',');
-                bytes.AddRange(strings.Select(s => byte.Parse(s)));
+                var value1 = model.ImageString;
+                value1 = value1.Remove(0, 22);
+                var image = Base64ToImage(value1);
+                image.Save(@"c:\test.jpg");
+
+                var bytes = Convert.FromBase64String(value1);
+
+                PhotoData newPhoto = new PhotoData()
+                {
+                    Id = Guid.NewGuid(),
+                    Photo = bytes.ToArray()
+                };
+
+                EmotionAnalysisController x = new EmotionAnalysisController();
+                var thing = await x.AnalyseEmotion(newPhoto.Id, newPhoto.Photo);
+
+                return NoContent();
             }
-
-            using (Image image = Image.FromStream(new MemoryStream(bytes.ToArray())))
+            catch (Exception e )
             {
-                image.Save("output.jpg", ImageFormat.Jpeg);  // Or Png
+
+                throw e;
             }
-
-            PhotoData newPhoto = new PhotoData()
-            {
-                Id = Guid.NewGuid(),
-                Photo = bytes.ToArray()
-            };
-
-            EmotionAnalysisController x = new EmotionAnalysisController();
-            var thing = await x.AnalyseEmotion(newPhoto.Id, newPhoto.Photo);
-
-            return NoContent();
         }
 
         // PUT: api/Photo/5
