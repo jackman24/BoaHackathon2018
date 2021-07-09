@@ -1,18 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace CognitiveServicesConsole
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            MainAsync().GetAwaiter().GetResult();
-        }
-
-        static async Task MainAsync()
+        public static async Task Main(string[] args)
         {
             FaceAnalysisDemo demo = new FaceAnalysisDemo();
             await demo.Run();
+            Console.ReadKey();
         }
     }
 }

@@ -3,18 +3,18 @@ using EmotionAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CognitiveServicesApi.Controllers
 {
-    public class ValuesController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ValuesController : ControllerBase
     {
         // http://localhost:56420/api/emotionanalysis/c8684209-e2c1-4413-aa39-f87a423c4742
         [HttpGet]
-        [ResponseType(typeof(EmotionAnalysisResultSet))]
-        [Route("api/emotionanalysis/{sessionId:Guid}")]
-        public async Task<EmotionAnalysisResultSet> GetFaceAnalysisResultSetBySessionId([FromUri] Guid sessionId)
+        [Route("api/emotionanalysis/{sessionId}")]
+        public async Task<EmotionAnalysisResultSet> GetFaceAnalysisResultSetBySessionId(Guid sessionId)
         {
             EmotionAnalysisEngine emotionAnalysisEngine = new EmotionAnalysisEngine();
 
@@ -23,9 +23,8 @@ namespace CognitiveServicesApi.Controllers
         }
 
         [HttpPost]
-        [ResponseType(typeof(FaceAnalysisDocument))]
-        [Route("api/emotionanalysis/{sessionId:Guid}")]
-        public async Task<FaceAnalysisDocument> AnalyseEmotion([FromUri] Guid sessionId, [FromBody] byte[] imageArray)
+        [Route("api/emotionanalysis/{sessionId}")]
+        public async Task<FaceAnalysisDocument> AnalyseEmotion(Guid sessionId, [FromBody] byte[] imageArray)
         {
             EmotionAnalysisEngine emotionAnalysisEngine = new EmotionAnalysisEngine();
 
@@ -34,28 +33,33 @@ namespace CognitiveServicesApi.Controllers
         }
 
         // GET api/values
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public ActionResult<string> Get(int id)
         {
             return "value";
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        [HttpPost]
+        public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/values/5
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }

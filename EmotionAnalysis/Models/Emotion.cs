@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EmotionAnalysis.Models
 {
     public class Emotion
     {
-        [JsonProperty("anger")]
+	[JsonProperty("anger")]
         public double Anger { get; set; }
 
         [JsonProperty("contempt")]

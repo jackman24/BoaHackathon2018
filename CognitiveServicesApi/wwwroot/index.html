@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <style>
+        .cromulon-background {
+            background: url(https://media.giphy.com/media/26DOs997h6fgsCthu/giphy.gif) no-repeat center center;
+        }
+
+        #myOnlineCamera video {
+            width: 320px;
+            height: 240px;
+            margin: 15px;
+            float: left;
+        }
+
+        #myOnlineCamera canvas {
+            width: 320px;
+            height: 240px;
+            margin: 15px;
+            float: left;
+        }
+
+        #myOnlineCamera button {
+            clear: both;
+            margin: 30px;
+        }
+    </style>
+
+    <div class="cromulon-background">
+    </div>
+    <div class="row">
+        <div id="myOnlineCamera">
+            <video muted></video>
+            <canvas id="myCanvas"></canvas>
+            <button id="takephoto">Take Photo!</button>
+            <button id="sendphoto">Send Photo!</button>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <script src="https://cdn.htmlgames.com/embed.js?game=MinesweeperClassic&amp;width=800&amp;height=480&amp;bgcolor=white"></script>
+    </div>
+
+
+<script>
+  var formdata = new FormData();
+  var videoObj = { "video": true },
+    errBack = function (error) {
+      alert("Video capture error: ", error.code);
+    };
+
+  // Ask the browser for permission to use the Webcam
+  if (navigator.getUserMedia) {                    // Standard
+    navigator.getUserMedia(videoObj, startWebcam, errBack);
+  } else if (navigator.webkitGetUserMedia) {        // WebKit
+    navigator.webkitGetUserMedia(videoObj, startWebcam, errBack);
+  } else if (navigator.mozGetUserMedia) {        // Firefox
+    navigator.mozGetUserMedia(videoObj, startWebcam, errBack);
+  };
+
+  function startWebcam(stream) {
+
+    var myOnlineCamera = document.getElementById('myOnlineCamera'),
+      video = myOnlineCamera.querySelector('video'),
+      canvas = myOnlineCamera.querySelector('canvas');
+
+    video.width = video.offsetWidth;
+
+    if (navigator.getUserMedia) {                    // Standard
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    } else if (navigator.webkitGetUserMedia) {        // WebKit
+      video.src = window.webkitURL.createObjectURL(stream);
+      video.play();
+    } else if (navigator.mozGetUserMedia) {        // Firefox
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    };
+
+    // Click to take the photo
+    document.getElementById('takephoto').addEventListener('click', () => {
+      // Copying the image in a temporary canvas
+      const temp = document.getElementById('myCanvas');
+      const ctx = temp.getContext('2d');
+
+      temp.width = video.offsetWidth;
+      temp.height = video.offsetHeight;
+      const tempScale = (temp.height / temp.width);
+
+      ctx.drawImage(
+        video,
+        0, 0,
+        video.offsetWidth, video.offsetHeight
+      );
+    });
+
+    document.getElementById('sendphoto').addEventListener('click', async () => {
+      const base64Photo = canvas.toDataURL();
+
+        const response =  fetch('api/photo', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ imageString: base64Photo })
+        });
+
+    });
+  }
+</script>
+</body>
+</html>

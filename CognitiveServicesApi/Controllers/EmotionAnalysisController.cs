@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
 using CognitiveServicesCore;
 using EmotionAnalysis;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CognitiveServicesApi.Controllers
 {
-    public class EmotionAnalysisController : ApiController
+    public class EmotionAnalysisController : Controller
     {
         [HttpGet]
-        [ResponseType(typeof(EmotionAnalysisResultSet))]
-        [Route("api/emotionanalysis/{sessionId:Guid}")]
-        public async Task<EmotionAnalysisResultSet> GetFaceAnalysisResultSetBySessionId([FromUri] Guid sessionId)
+        [Route("api/emotionanalysis/{sessionId}")]
+        public async Task<EmotionAnalysisResultSet> GetFaceAnalysisResultSetBySessionId(Guid sessionId)
         {
             EmotionAnalysisEngine emotionAnalysisEngine = new EmotionAnalysisEngine();
 
@@ -23,9 +19,8 @@ namespace CognitiveServicesApi.Controllers
         }
 
         [HttpPost]
-        [ResponseType(typeof(FaceAnalysisDocument))]
-        [Route("api/emotionanalysis/{sessionId:Guid}")]
-        public async Task<FaceAnalysisDocument> AnalyseEmotion([FromUri] Guid sessionId, byte[] imageArray)
+        [Route("api/emotionanalysis/{sessionId}")]
+        public async Task<FaceAnalysisDocument> AnalyseEmotion(Guid sessionId, byte[] imageArray)
         {
             EmotionAnalysisEngine emotionAnalysisEngine = new EmotionAnalysisEngine();
 
